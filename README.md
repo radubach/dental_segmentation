@@ -6,6 +6,10 @@ This project uses conputer vision models on panoramic dental xrays to:
 - identify teeth with segmentation masks
 - predict dental diseases
 
+#### Notebookes in Colab
+Data Processing Notebook - [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/radubach/dental_segmentation/blob/main/data_processing.ipynb)
+
+
 ## Source Data
 
 We primarily use the dataset from the 2023 DENTEX Challenge organized by MICCAI.
@@ -175,6 +179,3 @@ Quadrant 4
 
 - Does not support advanced annotations like segmentation or keypoints.
 - Each object is limited to a single class label.
-
-[![Data Processing in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/radubach/dental_segmentation/blob/main/data_processing.ipynb)
-
