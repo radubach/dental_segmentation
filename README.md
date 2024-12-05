@@ -1,6 +1,6 @@
 # Dental Segmentation and Disease Detection
 
-This project uses conputer vision models on panoramic dental xrays to:
+This project uses computer vision models on panoramic dental xrays to:
 
 - identify teeth with bounding boxes
 - identify teeth with segmentation masks
