@@ -144,17 +144,21 @@ YOLO (You Only Look Once) uses a simple and lightweight annotation format optimi
 
 #### `image1.txt`
 
+```
 0 0.631684 0.421661 0.270728 0.148414
 1 0.367301 0.427598 0.262267 0.141290
 2 0.646489 0.533268 0.283418 0.191157
 3 0.355668 0.530300 0.304569 0.197093
+```
 
 #### `classes.txt`
 
+```
 Quadrant 1
 Quadrant 2
 Quadrant 3
 Quadrant 4
+```
 
 ### Key Notes
 
