@@ -7,8 +7,8 @@ This project uses computer vision models on panoramic dental xrays to:
 - predict dental diseases
 
 #### Notebookes in Colab
-Data Processing Notebook - [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/radubach/dental_segmentation/blob/main/data_processing.ipynb)
 
+Data Processing Notebook - [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/radubach/dental_segmentation/blob/main/data_processing.ipynb)
 
 ## Source Data
 
@@ -179,3 +179,7 @@ Quadrant 4
 
 - Does not support advanced annotations like segmentation or keypoints.
 - Each object is limited to a single class label.
+
+# Python Module Notes
+
+Install the required packages with `pip install -r requirements.txt`
