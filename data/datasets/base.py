@@ -5,10 +5,12 @@ import os
 
 class BaseDataset(Dataset):
     """Base class for dental image datasets."""
-    def __init__(self, image_dir, coco_json, mask_dir=None):
+    def __init__(self, image_dir, coco_json, mask_dir=None, input_size=(256, 256), augment=False):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
         self.coco = COCO(coco_json)
+        self.input_size = input_size
+        self.augment = augment
         
         # Get all image IDs
         self.image_ids = list(sorted(self.coco.imgs.keys()))

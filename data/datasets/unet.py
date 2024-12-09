@@ -7,13 +7,8 @@ from ..transforms import SegmentationTransforms
 
 class UNetDataset(BaseDataset):
     """Dataset for UNet segmentation model."""
-    def __init__(self, 
-                 image_dir, 
-                 mask_dir, 
-                 coco_json, 
-                 input_size=(256, 256),  # Add input_size parameter
-                 augment=False):         # Add augment parameter
-        super().__init__(image_dir, coco_json, mask_dir)
+    def __init__(self, image_dir, mask_dir, coco_json, input_size=(256, 256), augment=False):
+        super().__init__(image_dir, coco_json, mask_dir, input_size, augment)
         
         # Create transforms using SegmentationTransforms
         self.transform = SegmentationTransforms.get_training_transforms(
