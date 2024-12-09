@@ -3,12 +3,24 @@ import numpy as np
 import os
 
 from .base import BaseDataset
+from ..transforms import SegmentationTransforms
 
 class UNetDataset(BaseDataset):
     """Dataset for UNet segmentation model."""
-    def __init__(self, image_dir, mask_dir, coco_json, transform=None):
+    def __init__(self, 
+                 image_dir, 
+                 mask_dir, 
+                 coco_json, 
+                 input_size=(256, 256),  # Add input_size parameter
+                 augment=False):         # Add augment parameter
         super().__init__(image_dir, coco_json, mask_dir)
-        self.transform = transform
+        
+        # Create transforms using SegmentationTransforms
+        self.transform = SegmentationTransforms.get_training_transforms(
+            input_height=input_size[0],
+            input_width=input_size[1],
+            augment=augment
+        )
 
     def load_mask(self, image_id):
         """Load existing mask file."""
@@ -25,8 +37,11 @@ class UNetDataset(BaseDataset):
         image = self.load_image(image_id)
         mask = self.load_mask(image_id)
 
-        # Apply transforms if specified
-        if self.transform:
-            image, mask = self.transform(image, mask)
+        # Convert PIL images to numpy arrays for albumentations
+        image_array = np.array(image)
+        mask_array = np.array(mask)
 
-        return image, mask
+        # Apply transforms
+        transformed = self.transform(image=image_array, mask=mask_array)
+        
+        return transformed['image'], transformed['mask']
