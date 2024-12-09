@@ -33,9 +33,7 @@ class DiceLoss(SegmentationLoss):
             smooth (float): Smoothing factor to avoid division by zero
             ignore_index (int, optional): Index to ignore in loss calculation (e.g., for ignore_index=-1)
         """
-        super(DiceLoss, self).__init__()
-        self.num_classes = num_classes
-        self.weights = weights
+        super(DiceLoss, self).__init__(num_classes=num_classes, weights=weights)  # Pass parameters to parent
         self.smooth = smooth
         self.ignore_index = ignore_index
 
