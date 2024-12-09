@@ -9,6 +9,7 @@ def read_requirements():
 setup(
     name="dental_segmentation",
     version="0.1",
-    packages=find_packages(),
     install_requires=read_requirements(),
+    package_dir={"": "src"},  
+    packages=find_packages(where="src"),  
 )
