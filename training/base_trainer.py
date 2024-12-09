@@ -142,6 +142,7 @@ class SegmentationTrainer(ABC):
             train_loss = self.train_epoch()
             self.current_loss = train_loss
             self._log_event(f"Epoch {epoch} training complete. Loss: {train_loss:.4f}", save_dir)
+            print(f"Epoch {epoch} training complete. Loss: {train_loss:.4f}")
             
             # Validation
             val_metrics = self.validate()
