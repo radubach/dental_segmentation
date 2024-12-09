@@ -39,4 +39,8 @@ class UNetDataset(BaseDataset):
         # Apply transforms
         transformed = self.transform(image=image_array, mask=mask_array)
         
-        return transformed['image'], transformed['mask']
+        # Convert to tensors of correct type
+        image_tensor = transformed['image']  # Should already be float
+        mask_tensor = transformed['mask'].long()  # Convert to LongTensor
+        
+        return image_tensor, mask_tensor
