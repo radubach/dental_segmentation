@@ -1,27 +1,35 @@
 import torch
+import numpy as np
 
 def compute_class_weights(dataset):
     """
     Compute class weights based on pixel frequency in masks.
     Returns weights that are inversely proportional to class frequency.
     """
-    # Initialize pixel counts for each class
-    class_counts = torch.zeros(33)  # 0 for background, 1-32 for teeth
+    print("Starting class weight computation...")
+    class_counts = torch.zeros(33)
     
-    # Count pixels of each class
     for idx in range(len(dataset)):
+        if idx % 10 == 0:  # Print progress every 10 images
+            print(f"Processing image {idx}/{len(dataset)}")
         _, mask = dataset[idx]
-        mask_array = torch.as_tensor(mask)
+        mask_array = torch.as_tensor(np.array(mask))
+        unique_values = torch.unique(mask_array)
+        print(f"Unique values in mask {idx}: {unique_values}")  # Debug print
+        
         for class_id in range(33):
-            class_counts[class_id] += (mask_array == class_id).sum()
+            pixel_count = (mask_array == class_id).sum().item()
+            class_counts[class_id] += pixel_count
+            
+    print("Class counts:", class_counts)
     
-    # Compute weights (inverse of frequency)
     total_pixels = class_counts.sum()
     class_frequencies = class_counts / total_pixels
-    weights = 1.0 / (class_frequencies + 1e-6)  # add small epsilon to avoid division by zero
+    print("Class frequencies:", class_frequencies)
     
-    # Normalize weights
+    weights = 1.0 / (class_frequencies + 1e-6)
     weights = weights / weights.sum()
+    print("Computed weights:", weights)
     
     return weights
 
