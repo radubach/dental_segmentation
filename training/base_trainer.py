@@ -125,7 +125,8 @@ class SegmentationTrainer(ABC):
         epochs: int, 
         save_dir: str,
         resume_from: Optional[str] = None,
-        save_frequency: int = 1
+        save_frequency: int = 1,
+        val_frequency: int = 1
     ) -> None:
         """Full training loop with checkpoints."""
         # Resume if checkpoint provided

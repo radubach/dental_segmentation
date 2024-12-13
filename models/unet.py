@@ -4,33 +4,28 @@ import torch.nn as nn
 
 
 """
-UNet: A Convolutional Neural Network for Semantic Segmentation
-
-This implementation defines a UNet architecture, commonly used for image segmentation tasks, 
-with a symmetric encoder-decoder structure. It extracts hierarchical features from the input 
-image in the encoder, combines them with upsampled features in the decoder using skip connections, 
-and outputs a per-pixel classification map.
+UNet: A Convolutional Neural Network for Segmentation
 
 Attributes:
-    encoder1, encoder2, encoder3, encoder4 (nn.Module): Convolutional blocks in the encoder, 
+    encoder1, encoder2, encoder3, encoder4: Convolutional blocks in the encoder, 
         progressively extracting features at different spatial resolutions.
-    pool (nn.Module): Max pooling layer used for downsampling feature maps.
-    bottleneck (nn.Module): A convolutional block at the bottleneck, capturing global context.
-    upconv4, upconv3, upconv2, upconv1 (nn.Module): Transposed convolution layers for upsampling.
-    decoder4, decoder3, decoder2, decoder1 (nn.Module): Convolutional blocks in the decoder, 
+    pool: Max pooling layer used for downsampling feature maps.
+    bottleneck: A convolutional block at the bottleneck, capturing global context.
+    upconv4, upconv3, upconv2, upconv1: Transposed convolution layers for upsampling.
+    decoder4, decoder3, decoder2, decoder1: Convolutional blocks in the decoder, 
         combining upsampled features with corresponding encoder features via skip connections.
-    final_conv (nn.Module): A 1x1 convolution layer for generating the final per-pixel 
+    final_conv: A 1x1 convolution layer for generating the final per-pixel 
         classification map with `out_channels` classes.
 
 Parameters:
-    in_channels (int): Number of input channels. Default is 1 (e.g., grayscale images).
-    out_channels (int): Number of output channels (classes) for segmentation. Default is 33.
+    in_channels: 1 input channel because our images are grayscale.
+    out_channels: 33 classes because there are 32 teeth classes and 1 background class.
 
 Methods:
-    forward(x): Passes an input tensor through the UNet model and returns the segmentation map.
+    forward: Passes an input tensor through the UNet model and returns the segmentation map.
 
     Args:
-        x (torch.Tensor): Input tensor of shape (batch_size, in_channels, height, width).
+        x: Input tensor of shape (batch_size, in_channels, height, width).
 
     Returns:
         torch.Tensor: Output tensor of shape (batch_size, out_channels, height, width) 
