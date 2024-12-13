@@ -1,6 +1,7 @@
 # src/data/transforms.py
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+import numpy as np
 
 
 class SegmentationTransforms:
@@ -27,13 +28,16 @@ class SegmentationTransforms:
             
             # Always end with tensor conversion
             A.Normalize(
-                mean=[0.5],  # For grayscale
+                mean=[0.5],  
                 std=[0.5]
             ),
             ToTensorV2()
         ]
         
-        return A.Compose(transforms_list)
+        return A.Compose(
+            transforms_list,
+            is_check_shapes=True
+        )
     
     @staticmethod
     def get_inference_transforms(

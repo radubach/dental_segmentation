@@ -2,22 +2,50 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
+# mapping after adding 1 to category_id
 TOOTH_TYPE_MAPPING = {
-    # Universal Numbering System (1-32)
-    # Incisors
-    1: 'incisor', 2: 'incisor', 7: 'incisor', 8: 'incisor',
-    9: 'incisor', 10: 'incisor', 15: 'incisor', 16: 'incisor',
-    # Canines
-    3: 'canine', 6: 'canine', 11: 'canine', 14: 'canine',
-    # Premolars
-    4: 'premolar', 5: 'premolar', 12: 'premolar', 13: 'premolar',
-    20: 'premolar', 21: 'premolar', 28: 'premolar', 29: 'premolar',
-    # Molars
-    17: 'molar', 18: 'molar', 19: 'molar',
-    30: 'molar', 31: 'molar', 32: 'molar'
+    # Quadrant 1 (Upper Right)
+    1: 'incisor', 
+    2: 'incisor', 
+    3: 'canine',  
+    4: 'premolar',
+    5: 'premolar',
+    6: 'molar',   
+    7: 'molar',   
+    8: 'molar',   
+
+    # Quadrant 2 (Upper Left)
+    9: 'incisor', 
+    10: 'incisor', 
+    11: 'canine', 
+    12: 'premolar',
+    13: 'premolar',
+    14: 'molar',   
+    15: 'molar',   
+    16: 'molar',   
+
+    # Quadrant 3 (Lower Left)
+    17: 'incisor', 
+    18: 'incisor', 
+    19: 'canine',  
+    20: 'premolar',
+    21: 'premolar',
+    22: 'molar',   
+    23: 'molar',   
+    24: 'molar',   
+
+    # Quadrant 4 (Lower Right)
+    25: 'incisor', 
+    26: 'incisor', 
+    27: 'canine',  
+    28: 'premolar',
+    29: 'premolar',
+    30: 'molar',   
+    31: 'molar',   
+    32: 'molar',   
 }
 
-# src/evaluation/metrics.py
+
 class SegmentationMetrics:
     """Base class for computing segmentation metrics."""
     def __init__(self, model, device, val_loader, num_classes=33):
@@ -49,22 +77,66 @@ class SegmentationMetrics:
                 all_targets.append(targets)
         return torch.cat(all_predictions), torch.cat(all_targets)
 
-    def compute_dice_scores(self, predictions, targets):
+    def _dice_coefficient(self, pred, target):
+        """Compute dice coefficient between two binary masks."""
+        intersection = torch.logical_and(pred, target).sum()
+        union = pred.sum() + target.sum()
+        if union == 0:
+            return torch.tensor(1.0)  # Both pred and target are empty
+        return 2.0 * intersection / union
+    
+    def _compute_overall_dice(self, predictions, targets, exclude_background=True):
+        """Compute overall dice score."""
+        if exclude_background:
+            mask = targets > 0
+            return self._dice_coefficient(predictions[mask] > 0, targets[mask] > 0)
+        return self._dice_coefficient(predictions > 0, targets > 0)
+    
+    def _compute_per_tooth_dice(self, predictions, targets):
+        """Compute dice score for each individual tooth."""
+        tooth_dice = {}
+        for tooth_id in range(1, self.num_classes):  # Skip background
+            pred_mask = predictions == tooth_id
+            target_mask = targets == tooth_id
+            # Only compute dice if this tooth exists in ground truth
+            if target_mask.sum() > 0:
+                tooth_dice[tooth_id] = self._dice_coefficient(pred_mask, target_mask)
+        return tooth_dice
+    
+    def _compute_per_type_dice(self, predictions, targets):
+        """Compute dice score for each tooth type (incisor, canine, etc.)."""
+        type_predictions = {}
+        type_targets = {}
+        type_dice = {}
+
+        # Initialize tensors for each tooth type
+        for tooth_type in self.tooth_types:
+            type_predictions[tooth_type] = torch.zeros_like(predictions, dtype=torch.bool)
+            type_targets[tooth_type] = torch.zeros_like(targets, dtype=torch.bool)
+
+        # Aggregate teeth by type
+        for tooth_id, tooth_type in TOOTH_TYPE_MAPPING.items():
+            type_predictions[tooth_type] |= (predictions == tooth_id)
+            type_targets[tooth_type] |= (targets == tooth_id)
+
+        # Compute dice for each type
+        for tooth_type in self.tooth_types:
+            type_dice[tooth_type] = self._dice_coefficient(
+                type_predictions[tooth_type],
+                type_targets[tooth_type]
+            )
+
+        return type_dice
+
+    def compute_dice_scores(self, predictions, targets, exclude_background=True):
         """Compute various Dice scores."""
-        # Overall dice (excluding background)
-        overall_dice = self._compute_overall_dice(predictions, targets)
-        
-        # Per-tooth dice
-        tooth_dice = self._compute_per_tooth_dice(predictions, targets)
-        
-        # Per-type dice
-        type_dice = self._compute_per_type_dice(tooth_dice)
-        
         return {
-            'overall': overall_dice,
-            'per_tooth': tooth_dice,
-            'per_type': type_dice
+            'overall': self._compute_overall_dice(predictions, targets, exclude_background).item(),
+            'per_tooth': {k: v.item() for k, v in self._compute_per_tooth_dice(predictions, targets).items()},
+            'per_type': {k: v.item() for k, v in self._compute_per_type_dice(predictions, targets).items()}
         }
+    
+
 
     def compute_precision_recall(self, predictions, targets):
         """Compute precision and recall using bbox overlap."""
