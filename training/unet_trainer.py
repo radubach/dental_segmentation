@@ -1,10 +1,9 @@
-# src/training/unet_trainer.py
 import torch
 from typing import Dict
 from torch.nn import CrossEntropyLoss
 
 from .base_trainer import SegmentationTrainer
-from ..utils.metrics import dice_metric
+from utils.metrics import dice_metric
 
 class UNetTrainer(SegmentationTrainer):
     """UNet-specific training implementation."""
