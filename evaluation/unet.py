@@ -19,6 +19,7 @@ class UNetEvaluator(BaseEvaluator):
         image = image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
         # Convert to tensor properly
         image_tensor = TF.to_tensor(image).unsqueeze(0)  # Only need one unsqueeze for batch dim
+        image_tensor = image_tensor.to(self.device)
         
         # Get model prediction
         with torch.no_grad():
