@@ -192,20 +192,19 @@ class BaseEvaluator:
         """
         # Get predictions and load image
         masks, boxes = self.get_predictions(image_id)
-        image = self.val_dataset.load_image(image_id)
-
-        image = np.array(image)
+        pil_image = self.val_dataset.load_image(image_id)  # Changed variable name to be clear
+        image_array = np.array(pil_image)
         
         # Convert grayscale to RGB if necessary
-        if len(image.shape) == 2:
-            image = np.stack([image] * 3, axis=-1)
+        if len(image_array.shape) == 2:
+            image_array = np.stack([image_array] * 3, axis=-1)
         
         # Create color map (one distinct color per class)
         colors = plt.cm.rainbow(np.linspace(0, 1, 32))
         
         # Create figure and axes
         fig, ax = plt.subplots(1, 1, figsize=(12, 8))
-        ax.imshow(image, cmap='gray')
+        ax.imshow(image_array, cmap='gray')
         
         # Plot masks and boxes for each class
         legend_elements = []
@@ -217,7 +216,7 @@ class BaseEvaluator:
         if masks[idx].any():
             mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
             mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
-            masked = np.ones_like(image) * color[:3]
+            masked = np.ones_like(image_array) * color[:3]
             ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
             
             # Add box if requested and exists
