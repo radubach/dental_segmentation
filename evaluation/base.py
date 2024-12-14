@@ -195,8 +195,11 @@ class BaseEvaluator:
         masks, boxes = self.get_predictions(image_id)
         pil_image = self.val_dataset.load_image(image_id)
         
-        image_tensor = TF.to_tensor(pil_image)
-        image_array = image_tensor.squeeze(0).cpu().numpy()
+        # First resize the image like in __getitem__
+        pil_image = pil_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
+        
+        # Now convert to numpy array
+        image_array = np.array(pil_image)
         
         # Convert grayscale to RGB if necessary
         if len(image_array.shape) == 2:
