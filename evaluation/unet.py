@@ -17,7 +17,7 @@ class UNetEvaluator(BaseEvaluator):
         original_image = self.val_dataset.load_image(image_id)
         original_size = original_image.size  # (width, height)
         # Resize to model input size
-        image = original_size.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
+        image = original_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
         # Convert to tensor properly
         image_tensor = TF.to_tensor(image).unsqueeze(0)  # Only need one unsqueeze for batch dim
         image_tensor = image_tensor.to(self.device)
