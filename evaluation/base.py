@@ -193,9 +193,19 @@ class BaseEvaluator:
         # Get predictions and load image
         masks, boxes = self.get_predictions(image_id)
         pil_image = self.val_dataset.load_image(image_id)
+        
+        # Debug what we're getting
+        print("DEBUG:")
         print(f"Type of pil_image: {type(pil_image)}")
-        print(f"Mode of PIL image: {pil_image.mode}") 
-        image_array = np.asarray(pil_image)
+        if hasattr(pil_image, 'mode'):
+            print(f"Mode: {pil_image.mode}")
+        
+        # Convert PIL Image to numpy array - handle potential errors
+        try:
+            image_array = np.array(pil_image)
+            print(f"Converted to array with shape: {image_array.shape}")
+        except Exception as e:
+            print(f"Error converting to array: {str(e)}")
         
         # Convert grayscale to RGB if necessary
         if len(image_array.shape) == 2:
