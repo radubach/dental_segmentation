@@ -1,6 +1,8 @@
 from .base import BaseEvaluator
 import torch
 import numpy as np
+from PIL import Image
+import torchvision.transforms.functional as TF
 
 class UNetEvaluator(BaseEvaluator):
     def __init__(self, val_dataset, model, device):
@@ -13,9 +15,10 @@ class UNetEvaluator(BaseEvaluator):
     def get_predictions(self, image_id):
         # Load and preprocess image
         image = self.val_dataset.load_image(image_id)
-        # Convert to tensor and add batch dimension
-        image_tensor = torch.from_numpy(np.array(image)).float().unsqueeze(0).unsqueeze(0)
-        image_tensor = image_tensor.to(self.device)
+        # Resize to model input size
+        image = image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
+        # Convert to tensor properly
+        image_tensor = TF.to_tensor(image).unsqueeze(0)  # Only need one unsqueeze for batch dim
         
         # Get model prediction
         with torch.no_grad():
@@ -24,6 +27,8 @@ class UNetEvaluator(BaseEvaluator):
         # Convert output to numpy array of binary masks
         # Assuming output is (1, C, H, W) where C is number of classes
         pred = output.argmax(dim=1).squeeze().cpu().numpy()  # (H, W) with values 0-32
+        print(f"Output shape: {output.shape}")
+        print(f"Unique values in prediction: {np.unique(pred)}")
         
         # Convert to 32 binary masks (excluding background class 0)
         masks = np.zeros((32, pred.shape[0], pred.shape[1]), dtype=bool)
