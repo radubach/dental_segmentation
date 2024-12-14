@@ -192,7 +192,9 @@ class BaseEvaluator:
         """
         # Get predictions and load image
         masks, boxes = self.get_predictions(image_id)
-        pil_image = self.val_dataset.load_image(image_id)  # Changed variable name to be clear
+        pil_image = self.val_dataset.load_image(image_id)
+        print(f"Type of pil_image: {type(pil_image)}")
+        print(f"Mode of PIL image: {pil_image.mode}") 
         image_array = np.asarray(pil_image)
         
         # Convert grayscale to RGB if necessary
