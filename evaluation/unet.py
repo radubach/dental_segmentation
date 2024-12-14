@@ -12,11 +12,12 @@ class UNetEvaluator(BaseEvaluator):
         self.model.to(device)
         self.model.eval()
         
-    def get_predictions(self, image_id):
-        # Load and preprocess image
-        image = self.val_dataset.load_image(image_id)
+    def get_predictions(self, image_id):    
+        # Get original image size
+        original_image = self.val_dataset.load_image(image_id)
+        original_size = original_image.size  # (width, height)
         # Resize to model input size
-        image = image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
+        image = original_size.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
         # Convert to tensor properly
         image_tensor = TF.to_tensor(image).unsqueeze(0)  # Only need one unsqueeze for batch dim
         image_tensor = image_tensor.to(self.device)
@@ -35,11 +36,19 @@ class UNetEvaluator(BaseEvaluator):
         masks = np.zeros((32, pred.shape[0], pred.shape[1]), dtype=bool)
         for i in range(32):
             masks[i] = (pred == (i + 1))  # i+1 because 0 is background
+
+        # Resize masks back to original size
+        resized_masks = np.zeros((32, original_size[1], original_size[0]), dtype=bool)
+        for i in range(32):
+            # Convert to PIL for resizing
+            mask_img = Image.fromarray(masks[i])
+            resized_mask = mask_img.resize(original_size, resample=Image.NEAREST)  # Use NEAREST for binary masks
+            resized_masks[i] = np.array(resized_mask)            
             
         # Generate boxes from masks
-        boxes = self.infer_boxes(masks)
+        boxes = self.infer_boxes(resized_masks)
         
-        return masks, boxes
+        return resized_masks, boxes
 
     def infer_boxes(self, masks):
         # Initialize boxes array
