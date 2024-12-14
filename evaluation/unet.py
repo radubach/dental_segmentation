@@ -50,3 +50,7 @@ class UNetEvaluator(BaseEvaluator):
                 boxes[i] = [x1, y1, x2, y2]
                 
         return boxes
+    
+    def visualize_prediction(self, image_id, is_bbox=True):
+        print("test")
+        return    

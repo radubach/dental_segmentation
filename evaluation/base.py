@@ -188,6 +188,3 @@ class BaseEvaluator:
 
 
 
-    def visualize_prediction(self, image_id, is_bbox=True):
-        print("test")
-        return
