@@ -223,8 +223,12 @@ class BaseEvaluator:
                     masked = np.ones_like(image_array) * color[:3]
                     print(f"Shape of masked array: {masked.shape}")
                     
-                    # Try inverting the mask logic and using lower alpha
-                    ax.imshow(np.ma.masked_array(masked, mask == 0), alpha=0.1)
+                    overlay = np.zeros_like(image_array, dtype=np.float32)
+                    overlay[mask] = color[:3]
+                    overlay = np.concatenate([overlay, np.zeros_like(overlay[..., :1])], axis=-1)
+                    overlay[..., 3] = mask[..., 0] * 0.3
+
+                    ax.imshow(overlay)
                 
                 # Add box if requested and exists
                 if is_bbox and boxes[idx].any():
