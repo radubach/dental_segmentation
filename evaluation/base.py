@@ -193,6 +193,8 @@ class BaseEvaluator:
         # Get predictions and load image
         masks, boxes = self.get_predictions(image_id)
         image = self.val_dataset.load_image(image_id)
+
+        image = np.array(image)
         
         # Convert grayscale to RGB if necessary
         if len(image.shape) == 2:
