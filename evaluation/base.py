@@ -188,19 +188,8 @@ class BaseEvaluator:
         try:
 
             # Get predictions and load image
-            print("Getting predictions...")
             masks, boxes = self.get_predictions(image_id)
-            
-            print("Loading image...")
             pil_image = self.val_dataset.load_image(image_id)
-            print(f"PIL Image type: {type(pil_image)}")
-            print(f"PIL Image attributes: {dir(pil_image)}")
-            
-            # First resize the image like in __getitem__
-            print("Resizing image...")
-            pil_image = pil_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
-            
-            print("Converting to array...")
             image_array = np.array(pil_image)
             
             # Convert grayscale to RGB if necessary
