@@ -183,3 +183,4 @@ Quadrant 4
 # Python Module Notes
 
 Install the required packages with `pip install -r requirements.txt`
+Run tests from command line like `python -m pytest tests/test_maskrcnn_dataset.py -v`

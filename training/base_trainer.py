@@ -1,4 +1,3 @@
-# src/training/base_trainer.py
 import torch
 import os
 from datetime import datetime

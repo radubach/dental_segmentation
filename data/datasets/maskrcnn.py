@@ -83,12 +83,12 @@ class MaskRCNNDataset(BaseDataset):
                 "masks": masks,
                 "image_id": torch.tensor([image_id], dtype=torch.int64)
             }
+
+            image = TF.to_tensor(image)
             
             # Apply transformations
             if self.transform:
                 image, target = self.transform(image, target)
-            else:
-                image = TF.to_tensor(image)
             
             return image, target
             
