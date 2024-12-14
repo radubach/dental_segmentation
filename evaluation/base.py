@@ -211,10 +211,20 @@ class BaseEvaluator:
                 
                 # Add mask if exists
                 if masks[idx].any():
-                    mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
-                    mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
+                    print(f"Shape of mask[{idx}]: {masks[idx].shape}")
+                    print(f"Number of True values in mask[{idx}]: {masks[idx].sum()}")
+                    
+                    # Add channel dimension for RGB
+                    mask = masks[idx][..., np.newaxis]  
+                    print(f"Shape after adding channel: {mask.shape}")
+                    mask = np.repeat(mask, 3, axis=2)    
+                    print(f"Shape after repeat: {mask.shape}")
+                    
                     masked = np.ones_like(image_array) * color[:3]
-                    ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
+                    print(f"Shape of masked array: {masked.shape}")
+                    
+                    # Try inverting the mask logic and using lower alpha
+                    ax.imshow(np.ma.masked_array(masked, mask == 0), alpha=0.1)
                 
                 # Add box if requested and exists
                 if is_bbox and boxes[idx].any():
