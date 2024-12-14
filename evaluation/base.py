@@ -210,11 +210,11 @@ class BaseEvaluator:
                 color = colors[idx]
                 
                 # Add mask if exists
-            if masks[idx].any():
-                mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
-                mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
-                masked = np.ones_like(image_array) * color[:3]
-                ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
+                if masks[idx].any():
+                    mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
+                    mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
+                    masked = np.ones_like(image_array) * color[:3]
+                    ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
                 
                 # Add box if requested and exists
                 if is_bbox and boxes[idx].any():
