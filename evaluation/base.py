@@ -214,20 +214,17 @@ class BaseEvaluator:
                     print(f"Shape of mask[{idx}]: {masks[idx].shape}")
                     print(f"Number of True values in mask[{idx}]: {masks[idx].sum()}")
                     
-                    # Add channel dimension for RGB
-                    mask = masks[idx][..., np.newaxis]  
-                    print(f"Shape after adding channel: {mask.shape}")
-                    mask = np.repeat(mask, 3, axis=2)    
-                    print(f"Shape after repeat: {mask.shape}")
+                    # Create RGBA overlay - shape will be (H, W, 4)
+                    overlay = np.zeros((*image_array.shape[:2], 4), dtype=np.float32)
                     
-                    masked = np.ones_like(image_array) * color[:3]
-                    print(f"Shape of masked array: {masked.shape}")
+                    # Set RGB channels where mask is True
+                    for c in range(3):
+                        overlay[..., c][masks[idx]] = color[c]
                     
-                    overlay = np.zeros_like(image_array, dtype=np.float32)
-                    overlay[mask] = color[:3]
-                    overlay = np.concatenate([overlay, np.zeros_like(overlay[..., :1])], axis=-1)
-                    overlay[..., 3] = mask[..., 0] * 0.3
-
+                    # Set alpha channel where mask is True
+                    overlay[..., 3][masks[idx]] = 0.3
+                    
+                    # Display the overlay
                     ax.imshow(overlay)
                 
                 # Add box if requested and exists
