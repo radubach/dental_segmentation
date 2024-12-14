@@ -184,76 +184,96 @@ class BaseEvaluator:
         return scores['numerator'] / scores['denominator'] if scores['denominator'] > 0 else 0.0
 
 
+    # def visualize_prediction(self, image_id, is_bbox=True):
+    #     """Visualize model predictions for given image."""
+    #     try:
+
+    #         # Get predictions and load image
+    #         print("Getting predictions...")
+    #         masks, boxes = self.get_predictions(image_id)
+            
+    #         print("Loading image...")
+    #         pil_image = self.val_dataset.load_image(image_id)
+    #         print(f"PIL Image type: {type(pil_image)}")
+    #         print(f"PIL Image attributes: {dir(pil_image)}")
+            
+    #         # First resize the image like in __getitem__
+    #         print("Resizing image...")
+    #         pil_image = pil_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
+            
+    #         print("Converting to array...")
+    #         image_array = np.array(pil_image)
+            
+    #         # Convert grayscale to RGB if necessary
+    #         if len(image_array.shape) == 2:
+    #             image_array = np.stack([image_array] * 3, axis=-1)
+            
+    #         # Create color map (one distinct color per class)
+    #         colors = plt.cm.rainbow(np.linspace(0, 1, 32))
+            
+    #         # Create figure and axes
+    #         fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+    #         ax.imshow(image_array, cmap='gray')
+            
+    #         # Plot masks and boxes for each class
+    #         legend_elements = []
+    #         for idx in range(32):
+    #             class_id = idx + 1
+    #             color = colors[idx]
+                
+    #             # Add mask if exists
+    #         if masks[idx].any():
+    #             mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
+    #             mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
+    #             masked = np.ones_like(image_array) * color[:3]
+    #             ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
+                
+    #             # Add box if requested and exists
+    #             if is_bbox and boxes[idx].any():
+    #                 x1, y1, x2, y2 = boxes[idx]
+    #                 rect = plt.Rectangle((x1, y1), x2-x1, y2-y1,
+    #                                 fill=False, color=color, linewidth=2)
+    #                 ax.add_patch(rect)
+                
+    #             # Add to legend if class has either mask or box
+    #             if masks[idx].any() or (is_bbox and boxes[idx].any()):
+    #                 legend_elements.append(plt.Line2D([0], [0], color=color, 
+    #                                             label=f'Tooth {class_id}'))
+            
+    #         # Add legend
+    #         ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), 
+    #                 loc='upper left', borderaxespad=0.)
+            
+    #         ax.set_title(f'Predictions for Image {image_id}')
+    #         ax.axis('off')
+    #         plt.tight_layout()
+    #         plt.show()
+
+    #     except Exception as e:
+    #         print(f"Error occurred: {type(e).__name__}")
+    #         print(f"Error message: {str(e)}")
+    #         print(f"Current line number: {e.__traceback__.tb_lineno}")
+    #         raise  # Re-raise the exception after printing debug info
+
+
+
     def visualize_prediction(self, image_id, is_bbox=True):
         """Visualize model predictions for given image."""
         try:
-
+            print("Starting visualization...")
+            
             # Get predictions and load image
-            print("Getting predictions...")
+            print("Before get_predictions...")
             masks, boxes = self.get_predictions(image_id)
+            print("After get_predictions...")
             
-            print("Loading image...")
-            pil_image = self.val_dataset.load_image(image_id)
-            print(f"PIL Image type: {type(pil_image)}")
-            print(f"PIL Image attributes: {dir(pil_image)}")
+            print("Before load_image...")
+            temp_image = self.val_dataset.load_image(image_id)
+            print("After load_image...")
+            print(f"Type: {type(temp_image)}")
             
-            # First resize the image like in __getitem__
-            print("Resizing image...")
-            pil_image = pil_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
-            
-            print("Converting to array...")
-            image_array = np.array(pil_image)
-            
-            # Convert grayscale to RGB if necessary
-            if len(image_array.shape) == 2:
-                image_array = np.stack([image_array] * 3, axis=-1)
-            
-            # Create color map (one distinct color per class)
-            colors = plt.cm.rainbow(np.linspace(0, 1, 32))
-            
-            # Create figure and axes
-            fig, ax = plt.subplots(1, 1, figsize=(12, 8))
-            ax.imshow(image_array, cmap='gray')
-            
-            # Plot masks and boxes for each class
-            legend_elements = []
-            for idx in range(32):
-                class_id = idx + 1
-                color = colors[idx]
-                
-                # Add mask if exists
-            if masks[idx].any():
-                mask = masks[idx][..., np.newaxis]  # Add channel dimension: (64, 64, 1)
-                mask = np.repeat(mask, 3, axis=2)    # Repeat to match RGB: (64, 64, 3)
-                masked = np.ones_like(image_array) * color[:3]
-                ax.imshow(np.ma.masked_array(masked, ~mask), alpha=0.3)
-                
-                # Add box if requested and exists
-                if is_bbox and boxes[idx].any():
-                    x1, y1, x2, y2 = boxes[idx]
-                    rect = plt.Rectangle((x1, y1), x2-x1, y2-y1,
-                                    fill=False, color=color, linewidth=2)
-                    ax.add_patch(rect)
-                
-                # Add to legend if class has either mask or box
-                if masks[idx].any() or (is_bbox and boxes[idx].any()):
-                    legend_elements.append(plt.Line2D([0], [0], color=color, 
-                                                label=f'Tooth {class_id}'))
-            
-            # Add legend
-            ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), 
-                    loc='upper left', borderaxespad=0.)
-            
-            ax.set_title(f'Predictions for Image {image_id}')
-            ax.axis('off')
-            plt.tight_layout()
-            plt.show()
-
         except Exception as e:
-            print(f"Error occurred: {type(e).__name__}")
+            print(f"Error occurred at line {e.__traceback__.tb_lineno}")
+            print(f"Error type: {type(e).__name__}")
             print(f"Error message: {str(e)}")
-            print(f"Current line number: {e.__traceback__.tb_lineno}")
-            raise  # Re-raise the exception after printing debug info
-
-
-
+            raise
