@@ -189,22 +189,5 @@ class BaseEvaluator:
 
 
     def visualize_prediction(self, image_id, is_bbox=True):
-        """Visualize model predictions for given image."""
-        try:
-            print("Starting visualization...")
-            
-            # Get predictions and load image
-            print("Before get_predictions...")
-            # masks, boxes = self.get_predictions(image_id)
-            print("After get_predictions...")
-            
-            print("Before load_image...")
-            # temp_image = self.val_dataset.load_image(image_id)
-            print("After load_image...")
-            # print(f"Type: {type(temp_image)}")
-            
-        except Exception as e:
-            print(f"Error occurred at line {e.__traceback__.tb_lineno}")
-            print(f"Error type: {type(e).__name__}")
-            print(f"Error message: {str(e)}")
-            raise
+        print("test")
+        return
