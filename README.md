@@ -184,3 +184,4 @@ Quadrant 4
 
 Install the required packages with `pip install -r requirements.txt`
 Run tests from command line like `python -m pytest tests/test_maskrcnn_dataset.py -v`
+tag a version like `git tag -a v1.0.0 -m "Version 1.0.0"`, push with `git push origin v1.0.0`
