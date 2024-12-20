@@ -27,7 +27,12 @@ class SegmentationTransforms:
                 ),
                 A.GaussNoise(var_limit=(10.0, 50.0), p=0.5),
                 A.Rotate(limit=10, p=0.5),
-                A.Shift(limit=0.05, p=0.5),
+                A.ShiftScaleRotate(
+                    shift_limit=0.05,  # Only use shift
+                    scale_limit=0.0,   # Disable scaling
+                    rotate_limit=0,    # Disable rotation
+                    p=0.5
+                ),
             ] if augment else []),
             
             # Always end with tensor conversion
