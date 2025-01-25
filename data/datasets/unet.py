@@ -53,8 +53,7 @@ class UNetDataset(BaseDataset):
                 print(f"Error processing annotation for image {image_id}: {e}")
                 continue
 
-        mask = Image.fromarray(mask).resize(self.input_size, resample=Image.NEAREST)
-        return mask  # Return original size mask
+        return mask
 
     def get_mask(self, image_id):
         """Get mask from cache or create new."""
@@ -76,9 +75,6 @@ class UNetDataset(BaseDataset):
             # Load original size image and mask
             image = self.load_image(image_id)
             mask = self.get_mask(image_id)
-
-            # Resize image to match input_size (mask is already resized in create_mask)
-            image = image.resize(self.input_size, resample=Image.BILINEAR)
 
             # Convert to numpy arrays
             image_array = np.array(image)
