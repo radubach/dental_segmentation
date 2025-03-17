@@ -3,25 +3,44 @@ import numpy as np
 import os
 import cv2
 import torch
+from typing import Tuple, Dict, Any
 
 from .base import BaseDataset
 from ..transforms import SegmentationTransforms
+from configs.config import Config
 
 class UNetDataset(BaseDataset):
-    def __init__(self, image_dir, mask_dir, coco_json, input_size=(256, 256), augment=False, use_cache=True):
-        super().__init__(image_dir, coco_json, mask_dir, input_size, augment)
-        
-        # Validate input size
-        if not isinstance(input_size, tuple) or len(input_size) != 2:
-            raise ValueError("input_size must be a tuple of (height, width)")    
+    """A dataset class specifically designed for training U-Net segmentation models.
 
+    This dataset handles semantic segmentation data where each pixel in the mask is assigned
+    a category ID. It's particularly suited for U-Net architecture as it:
+    - Generates one-hot encoded masks where background is 0 and other classes start from 1
+    - Maintains aspect ratio and handles both single and multi-polygon segmentation masks
+    - Supports caching of processed masks for improved performance
+    - Provides synchronized transformations for both images and their corresponding masks
+
+    Args:
+        config: Configuration object containing dataset parameters
+        use_cache: Whether to cache processed masks in memory. Default: True
+        is_training: Whether this dataset is for training. Default: True
+
+    Note:
+        The class expects annotations in COCO format and converts segmentation polygons
+        into pixel-wise masks. Category IDs in the output masks are offset by +1 to
+        reserve 0 for background, which is typical in U-Net implementations.
+    """
+    def __init__(self, config: Config, use_cache: bool = True, is_training: bool = True):
+        super().__init__(config, is_training)
+        
         # Single cache initialization
         self._mask_cache = {} if use_cache else None
+        self.config = config
         
-        self.transform = SegmentationTransforms.get_training_transforms(
-            input_height=input_size[0],
-            input_width=input_size[1],
-            augment=augment
+        # Get appropriate transforms
+        self.transform = (
+            SegmentationTransforms.get_training_transforms(config.data, is_instance_segmentation=False)
+            if is_training else
+            SegmentationTransforms.get_inference_transforms(config.data, is_instance_segmentation=False)
         )
 
     def create_mask(self, image_id):
@@ -67,32 +86,22 @@ class UNetDataset(BaseDataset):
             
         return mask
 
-    def __getitem__(self, idx):
-        """Get image and corresponding segmentation mask."""
-        image_id = self.image_ids[idx]
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Get a single item from the dataset.
         
-        try:
-            # Load original size image and mask
-            image = self.load_image(image_id)
-            mask = self.get_mask(image_id)
-
-            # Convert to numpy arrays
-            image_array = np.array(image)
-            mask_array = np.array(mask)
-
-            # Add channel dimension to image if needed
-            if len(image_array.shape) == 2:
-                image_array = np.expand_dims(image_array, axis=-1)
-
-            # Apply transforms (including resize)
-            transformed = self.transform(image=image_array, mask=mask_array)
-            
-            # # Convert to tensors of correct type
-            image_tensor = transformed['image']  # Should already be float
-            mask_tensor = transformed['mask'].long()  # Convert to LongTensor
-            
-            return image_tensor, mask_tensor
-            
-        except Exception as e:
-            print(f"Error processing item {idx} (image_id: {image_id}): {e}")
-            raise
+        Returns:
+            tuple: (image, mask) where:
+                - image: torch.Tensor of shape (C, H, W)
+                - mask: torch.Tensor of shape (H, W) with values 0-32
+                  representing class IDs (singular because it's one semantic mask)
+        """
+        image_id = self.image_ids[idx]
+        image = self.load_image(image_id)
+        mask = self.get_mask(image_id)  # singular because it's one semantic mask
+        
+        transformed = self.transform(
+            image=np.array(image),
+            mask=mask  # singular for semantic segmentation
+        )
+        
+        return transformed['image'], transformed['mask']

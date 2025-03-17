@@ -70,3 +70,129 @@
 {"timestamp": "2024-12-13T16:38:27.698884", "epoch": 1, "event": "loss_mask: 0.8613"}
 {"timestamp": "2024-12-13T16:38:27.699016", "epoch": 1, "event": "loss_objectness: 0.6390"}
 {"timestamp": "2024-12-13T16:38:27.699128", "epoch": 1, "event": "loss_rpn_box_reg: 0.0011"}
+{"timestamp": "2025-02-14T09:56:40.753399", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T09:56:40.754212", "epoch": 0, "event": "loss_classifier: 1.1858"}
+{"timestamp": "2025-02-14T09:56:40.754491", "epoch": 0, "event": "loss_box_reg: 0.0001"}
+{"timestamp": "2025-02-14T09:56:40.754618", "epoch": 0, "event": "loss_mask: 8.0017"}
+{"timestamp": "2025-02-14T09:56:40.754715", "epoch": 0, "event": "loss_objectness: 0.6885"}
+{"timestamp": "2025-02-14T09:56:40.754845", "epoch": 0, "event": "loss_rpn_box_reg: 0.0017"}
+{"timestamp": "2025-02-14T09:56:46.729067", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T09:56:46.729327", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T09:56:46.729757", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T09:56:51.865067", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T09:56:51.865407", "epoch": 0, "event": "loss_classifier: 1.1459"}
+{"timestamp": "2025-02-14T09:56:51.865791", "epoch": 0, "event": "loss_box_reg: 0.0198"}
+{"timestamp": "2025-02-14T09:56:51.865962", "epoch": 0, "event": "loss_mask: 0.0783"}
+{"timestamp": "2025-02-14T09:56:51.866137", "epoch": 0, "event": "loss_objectness: 0.7153"}
+{"timestamp": "2025-02-14T09:56:51.866311", "epoch": 0, "event": "loss_rpn_box_reg: 0.0020"}
+{"timestamp": "2025-02-14T09:57:03.752890", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T09:57:03.753947", "epoch": 1, "event": "loss_classifier: 0.2046"}
+{"timestamp": "2025-02-14T09:57:03.754178", "epoch": 1, "event": "loss_box_reg: 0.0248"}
+{"timestamp": "2025-02-14T09:57:03.754354", "epoch": 1, "event": "loss_mask: 0.0013"}
+{"timestamp": "2025-02-14T09:57:03.754459", "epoch": 1, "event": "loss_objectness: 0.6507"}
+{"timestamp": "2025-02-14T09:57:03.754546", "epoch": 1, "event": "loss_rpn_box_reg: 0.0010"}
+{"timestamp": "2025-02-14T10:01:16.012569", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:01:16.012873", "epoch": 0, "event": "loss_classifier: 1.4521"}
+{"timestamp": "2025-02-14T10:01:16.013260", "epoch": 0, "event": "loss_box_reg: 0.0133"}
+{"timestamp": "2025-02-14T10:01:16.013433", "epoch": 0, "event": "loss_mask: 3.2976"}
+{"timestamp": "2025-02-14T10:01:16.013556", "epoch": 0, "event": "loss_objectness: 0.7026"}
+{"timestamp": "2025-02-14T10:01:16.013689", "epoch": 0, "event": "loss_rpn_box_reg: 0.0015"}
+{"timestamp": "2025-02-14T10:01:21.568959", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T10:01:21.569198", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T10:01:21.569633", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T10:01:27.400064", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:01:27.400386", "epoch": 0, "event": "loss_classifier: 1.0720"}
+{"timestamp": "2025-02-14T10:01:27.400774", "epoch": 0, "event": "loss_box_reg: 0.0001"}
+{"timestamp": "2025-02-14T10:01:27.400953", "epoch": 0, "event": "loss_mask: 3.2571"}
+{"timestamp": "2025-02-14T10:01:27.401121", "epoch": 0, "event": "loss_objectness: 0.6981"}
+{"timestamp": "2025-02-14T10:01:27.401266", "epoch": 0, "event": "loss_rpn_box_reg: 0.0018"}
+{"timestamp": "2025-02-14T10:01:39.868527", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T10:01:39.868905", "epoch": 1, "event": "loss_classifier: 0.3883"}
+{"timestamp": "2025-02-14T10:01:39.869251", "epoch": 1, "event": "loss_box_reg: 0.0318"}
+{"timestamp": "2025-02-14T10:01:39.869389", "epoch": 1, "event": "loss_mask: 0.2644"}
+{"timestamp": "2025-02-14T10:01:39.869484", "epoch": 1, "event": "loss_objectness: 0.6612"}
+{"timestamp": "2025-02-14T10:01:39.869592", "epoch": 1, "event": "loss_rpn_box_reg: 0.0010"}
+{"timestamp": "2025-02-14T10:04:35.437047", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:04:35.438125", "epoch": 0, "event": "loss_classifier: 0.9084"}
+{"timestamp": "2025-02-14T10:04:35.438320", "epoch": 0, "event": "loss_box_reg: 0.0133"}
+{"timestamp": "2025-02-14T10:04:35.438443", "epoch": 0, "event": "loss_mask: 1.3227"}
+{"timestamp": "2025-02-14T10:04:35.438537", "epoch": 0, "event": "loss_objectness: 0.6893"}
+{"timestamp": "2025-02-14T10:04:35.438679", "epoch": 0, "event": "loss_rpn_box_reg: 0.0014"}
+{"timestamp": "2025-02-14T10:04:41.166382", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T10:04:41.166643", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T10:04:41.167032", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T10:04:46.341701", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:04:46.342081", "epoch": 0, "event": "loss_classifier: 1.0642"}
+{"timestamp": "2025-02-14T10:04:46.342440", "epoch": 0, "event": "loss_box_reg: 0.0002"}
+{"timestamp": "2025-02-14T10:04:46.342570", "epoch": 0, "event": "loss_mask: 6.9115"}
+{"timestamp": "2025-02-14T10:04:46.342685", "epoch": 0, "event": "loss_objectness: 0.7632"}
+{"timestamp": "2025-02-14T10:04:46.342783", "epoch": 0, "event": "loss_rpn_box_reg: 0.0016"}
+{"timestamp": "2025-02-14T10:04:58.092092", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T10:04:58.092789", "epoch": 1, "event": "loss_classifier: 0.2170"}
+{"timestamp": "2025-02-14T10:04:58.092951", "epoch": 1, "event": "loss_box_reg: 0.0394"}
+{"timestamp": "2025-02-14T10:04:58.093052", "epoch": 1, "event": "loss_mask: 0.6566"}
+{"timestamp": "2025-02-14T10:04:58.093197", "epoch": 1, "event": "loss_objectness: 0.7133"}
+{"timestamp": "2025-02-14T10:04:58.093289", "epoch": 1, "event": "loss_rpn_box_reg: 0.0007"}
+{"timestamp": "2025-02-14T10:06:52.767595", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:06:52.767912", "epoch": 0, "event": "loss_classifier: 1.1956"}
+{"timestamp": "2025-02-14T10:06:52.768293", "epoch": 0, "event": "loss_box_reg: 0.0455"}
+{"timestamp": "2025-02-14T10:06:52.768437", "epoch": 0, "event": "loss_mask: 1.2335"}
+{"timestamp": "2025-02-14T10:06:52.768566", "epoch": 0, "event": "loss_objectness: 0.7200"}
+{"timestamp": "2025-02-14T10:06:52.768737", "epoch": 0, "event": "loss_rpn_box_reg: 0.0012"}
+{"timestamp": "2025-02-14T10:06:58.384325", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T10:06:58.384576", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T10:06:58.384996", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T10:07:03.478619", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:07:03.478918", "epoch": 0, "event": "loss_classifier: 1.1852"}
+{"timestamp": "2025-02-14T10:07:03.479295", "epoch": 0, "event": "loss_box_reg: 0.0351"}
+{"timestamp": "2025-02-14T10:07:03.479400", "epoch": 0, "event": "loss_mask: 0.7634"}
+{"timestamp": "2025-02-14T10:07:03.479519", "epoch": 0, "event": "loss_objectness: 0.7074"}
+{"timestamp": "2025-02-14T10:07:03.479688", "epoch": 0, "event": "loss_rpn_box_reg: 0.0033"}
+{"timestamp": "2025-02-14T10:07:15.093485", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T10:07:15.094647", "epoch": 1, "event": "loss_classifier: 0.1357"}
+{"timestamp": "2025-02-14T10:07:15.094846", "epoch": 1, "event": "loss_box_reg: 0.0213"}
+{"timestamp": "2025-02-14T10:07:15.094990", "epoch": 1, "event": "loss_mask: 0.0078"}
+{"timestamp": "2025-02-14T10:07:15.095126", "epoch": 1, "event": "loss_objectness: 0.6482"}
+{"timestamp": "2025-02-14T10:07:15.095271", "epoch": 1, "event": "loss_rpn_box_reg: 0.0007"}
+{"timestamp": "2025-02-14T10:08:57.784920", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:08:57.785232", "epoch": 0, "event": "loss_classifier: 0.9981"}
+{"timestamp": "2025-02-14T10:08:57.785624", "epoch": 0, "event": "loss_box_reg: 0.0107"}
+{"timestamp": "2025-02-14T10:08:57.785769", "epoch": 0, "event": "loss_mask: 9.5608"}
+{"timestamp": "2025-02-14T10:08:57.785947", "epoch": 0, "event": "loss_objectness: 0.6953"}
+{"timestamp": "2025-02-14T10:08:57.786061", "epoch": 0, "event": "loss_rpn_box_reg: 0.0011"}
+{"timestamp": "2025-02-14T10:09:03.650142", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T10:09:03.650395", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T10:09:03.650811", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T10:09:08.864171", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:09:08.864474", "epoch": 0, "event": "loss_classifier: 0.8530"}
+{"timestamp": "2025-02-14T10:09:08.864833", "epoch": 0, "event": "loss_box_reg: 0.0159"}
+{"timestamp": "2025-02-14T10:09:08.864949", "epoch": 0, "event": "loss_mask: 0.0037"}
+{"timestamp": "2025-02-14T10:09:08.865129", "epoch": 0, "event": "loss_objectness: 0.6825"}
+{"timestamp": "2025-02-14T10:09:08.865366", "epoch": 0, "event": "loss_rpn_box_reg: 0.0020"}
+{"timestamp": "2025-02-14T10:09:20.010317", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T10:09:20.011365", "epoch": 1, "event": "loss_classifier: 0.0721"}
+{"timestamp": "2025-02-14T10:09:20.011541", "epoch": 1, "event": "loss_box_reg: 0.0363"}
+{"timestamp": "2025-02-14T10:09:20.011686", "epoch": 1, "event": "loss_mask: 0.0000"}
+{"timestamp": "2025-02-14T10:09:20.011836", "epoch": 1, "event": "loss_objectness: 0.5734"}
+{"timestamp": "2025-02-14T10:09:20.011982", "epoch": 1, "event": "loss_rpn_box_reg: 0.0021"}
+{"timestamp": "2025-02-14T10:10:20.492838", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:10:20.493156", "epoch": 0, "event": "loss_classifier: 0.8985"}
+{"timestamp": "2025-02-14T10:10:20.493561", "epoch": 0, "event": "loss_box_reg: 0.0005"}
+{"timestamp": "2025-02-14T10:10:20.493704", "epoch": 0, "event": "loss_mask: 2.8026"}
+{"timestamp": "2025-02-14T10:10:20.493844", "epoch": 0, "event": "loss_objectness: 0.6930"}
+{"timestamp": "2025-02-14T10:10:20.493990", "epoch": 0, "event": "loss_rpn_box_reg: 0.0014"}
+{"timestamp": "2025-02-14T10:10:26.246636", "epoch": 1, "event": "Loaded checkpoint from epoch 1"}
+{"timestamp": "2025-02-14T10:10:26.246900", "epoch": 1, "event": "Restored to epoch 1"}
+{"timestamp": "2025-02-14T10:10:26.247292", "epoch": 1, "event": "Best metric so far: -inf"}
+{"timestamp": "2025-02-14T10:10:31.491291", "epoch": 0, "event": "Average loss components for epoch 0:"}
+{"timestamp": "2025-02-14T10:10:31.491587", "epoch": 0, "event": "loss_classifier: 1.2444"}
+{"timestamp": "2025-02-14T10:10:31.491998", "epoch": 0, "event": "loss_box_reg: 0.0002"}
+{"timestamp": "2025-02-14T10:10:31.492129", "epoch": 0, "event": "loss_mask: 4.7855"}
+{"timestamp": "2025-02-14T10:10:31.492276", "epoch": 0, "event": "loss_objectness: 0.6875"}
+{"timestamp": "2025-02-14T10:10:31.492411", "epoch": 0, "event": "loss_rpn_box_reg: 0.0018"}
+{"timestamp": "2025-02-14T10:10:43.933815", "epoch": 1, "event": "Average loss components for epoch 1:"}
+{"timestamp": "2025-02-14T10:10:43.934106", "epoch": 1, "event": "loss_classifier: 0.2436"}
+{"timestamp": "2025-02-14T10:10:43.934287", "epoch": 1, "event": "loss_box_reg: 0.0003"}
+{"timestamp": "2025-02-14T10:10:43.934431", "epoch": 1, "event": "loss_mask: 0.9128"}
+{"timestamp": "2025-02-14T10:10:43.934581", "epoch": 1, "event": "loss_objectness: 0.6532"}
+{"timestamp": "2025-02-14T10:10:43.934709", "epoch": 1, "event": "loss_rpn_box_reg: 0.0013"}

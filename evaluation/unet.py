@@ -2,59 +2,92 @@ from .base import BaseEvaluator
 import torch
 import numpy as np
 from PIL import Image
-import torchvision.transforms.functional as TF
+from data.transforms import SegmentationTransforms
+from configs.config import Config
+from typing import List
 
 class UNetEvaluator(BaseEvaluator):
-    def __init__(self, val_dataset, model, device):
-        super().__init__(val_dataset)
+    """Evaluator for UNet segmentation model predictions.
+    
+    This class handles the evaluation pipeline for a UNet model, including:
+    - Loading and preprocessing images
+    - Generating model predictions
+    - Post-processing predictions into instance masks and bounding boxes
+    - Resizing outputs back to original image dimensions
+    
+    Args:
+        model: Trained UNet model for generating predictions
+        config: Configuration object containing model and data parameters
+    
+    Example:
+        >>> evaluator = UNetEvaluator(model, config)
+        >>> masks, boxes = evaluator.get_predictions(image_id)
+        >>> # masks.shape: (32, H, W) boolean array of instance masks
+        >>> # boxes.shape: (32, 4) array of [x1, y1, x2, y2] coordinates
+    """
+    def __init__(self, model, config: Config):
         self.model = model
-        self.device = device
-        self.model.to(device)
+        self.config = config
+        self.device = torch.device(config.model.device)
+        self.model.to(self.device)
         self.model.eval()
         
-    def get_predictions(self, image_id):    
-        # Get original image size
-        original_image = self.val_dataset.load_image(image_id)
-        original_size = original_image.size  # (width, height)
-        # Resize to model input size
-        image = original_image.resize(self.val_dataset.input_size, resample=Image.BILINEAR)
-        # Convert to tensor properly
-        image_tensor = TF.to_tensor(image).unsqueeze(0)  # Only need one unsqueeze for batch dim
-        image_tensor = image_tensor.to(self.device)
+    def preprocess_image(self, image: Image.Image) -> torch.Tensor:
+        """Preprocess a single image for model input."""
+        transform = SegmentationTransforms.get_inference_transforms(
+            self.config.data,
+            is_instance_segmentation=False
+        )
+        transformed = transform(image=np.array(image))
+        return transformed['image'].unsqueeze(0).to(self.device)
+        
+    def postprocess_output(self, output: torch.Tensor) -> np.ndarray:
+        """Convert model output to segmentation mask."""
+        return output.argmax(dim=1).squeeze().cpu().numpy()
+        
+    def predict(self, image: Image.Image, use_sliding_window: bool = False) -> np.ndarray:
+        """Generate predictions for a single image.
+        
+        Args:
+            image: PIL Image to process
+            use_sliding_window: Whether to use sliding window inference
+            
+        Returns:
+            numpy array of shape (H, W) containing class predictions
+        """
+        # Get original size for resizing back
+        original_size = image.size[::-1]  # PIL size is (W, H)
+        
+        # Preprocess image
+        image_tensor = self.preprocess_image(image)
         
         # Get model prediction
         with torch.no_grad():
             output = self.model(image_tensor)
             
-        # Convert output to numpy array of binary masks
-        # Assuming output is (1, C, H, W) where C is number of classes
-        pred = output.argmax(dim=1).squeeze().cpu().numpy()  # (H, W) with values 0-32
-        print(f"Output shape: {output.shape}")
-        print(f"Unique values in prediction: {np.unique(pred)}")
+        # Convert output to numpy array
+        pred = self.postprocess_output(output)
         
-        # Convert to 32 binary masks (excluding background class 0)
-        masks = np.zeros((32, pred.shape[0], pred.shape[1]), dtype=bool)
-        for i in range(32):
-            masks[i] = (pred == (i + 1))  # i+1 because 0 is background
-
-        # Resize masks back to original size
-        resized_masks = np.zeros((32, original_size[1], original_size[0]), dtype=bool)
-        for i in range(32):
-            # Convert to PIL for resizing
-            mask_img = Image.fromarray(masks[i])
-            resized_mask = mask_img.resize(original_size, resample=Image.NEAREST)  # Use NEAREST for binary masks
-            resized_masks[i] = np.array(resized_mask)            
+        # Resize back to original size if needed
+        if pred.shape != original_size:
+            transform = SegmentationTransforms.get_resize_transform(
+                output_height=original_size[0],
+                output_width=original_size[1]
+            )
+            transformed = transform(image=pred)
+            pred = transformed['image']
             
-        # Generate boxes from masks
-        boxes = self.infer_boxes(resized_masks)
+        return pred
         
-        return resized_masks, boxes
-
-    def infer_boxes(self, masks):
-        # Initialize boxes array
-        boxes = np.zeros((32, 4), dtype=float)
+    def predict_batch(self, images: List[Image.Image]) -> List[np.ndarray]:
+        """Generate predictions for a batch of images."""
+        return [self.predict(image) for image in images]
         
-        for i in range(32):
+    def infer_boxes(self, masks: np.ndarray) -> np.ndarray:
+        """Infer bounding boxes from instance masks."""
+        boxes = np.zeros((masks.shape[0], 4), dtype=float)
+        
+        for i in range(masks.shape[0]):
             mask = masks[i]
             if mask.any():  # If mask contains any True values
                 # Find the bounding box of the mask
