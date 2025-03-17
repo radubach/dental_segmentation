@@ -1,0 +1,41 @@
+data:
+  image_dir: "data/images"
+  coco_json: "data/annotations.json"
+  mask_dir: "data/masks"
+  input_size: [256, 256]
+  batch_size: 8
+  num_workers: 4
+  augment: true
+  augment_prob: 0.5
+
+model:
+  type: "maskrcnn"
+  in_channels: 1
+  out_channels: 33
+  pretrained: true
+  backbone: "resnet50"
+  trainable_backbone_layers: 5
+
+optimizer:
+  type: "adam"
+  learning_rate: 0.001
+  weight_decay: 0.0001
+
+training:
+  epochs: 100
+  device: "cuda"
+  mixed_precision: true
+  save_dir: "checkpoints"
+  log_dir: "logs"
+  experiment_name: "dental_segmentation_v1"
+  use_wandb: true
+  wandb_project: "dental-segmentation"
+
+  loss_weights:
+    classification: 1.0
+    bbox: 1.0
+    mask: 1.0
+
+seed: 42
+debug: false
+verbose: true
